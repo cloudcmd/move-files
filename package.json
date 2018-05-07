@@ -1,0 +1,59 @@
+{
+  "name": "@cloudcmd/move-files",
+  "version": "1.0.0",
+  "description": "move files",
+  "main": "lib/move-files.js",
+  "scripts": {
+    "wisdom": "npm run build",
+    "watch:coverage": "npm run watcher -- npm run coverage",
+    "watch:test": "npm run watcher -- npm test",
+    "watcher": "nodemon -w test -w lib --exec",
+    "test": "tape test/*.js",
+    "coverage": "nyc npm test",
+    "report": "nyc report --reporter=text-lcov | coveralls",
+    "lint:lib": "eslint lib",
+    "lint:test": "eslint test -c .eslintrc.test",
+    "lint": "redrun lint:*"
+  },
+  "dependencies": {
+    "@cloudcmd/rename-files": "^1.0.0",
+    "copymitter": "^3.1.1",
+    "currify": "^2.0.6",
+    "es6-promisify": "^6.0.0",
+    "fullstore": "^1.1.0",
+    "wraptile": "^2.0.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.0",
+    "eslint": "^4.0.0",
+    "eslint-plugin-node": "^6.0.1",
+    "memfs": "^2.8.0",
+    "mock-require": "^3.0.2",
+    "nodemon": "^1.11.0",
+    "nyc": "^11.0.2",
+    "readjson": "^1.1.4",
+    "redrun": "^6.0.0",
+    "sinon": "^5.0.6",
+    "tape": "^4.2.0",
+    "try-catch": "^2.0.0",
+    "try-to-catch": "^1.0.2"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cloudcmd/move-files.git"
+  },
+  "keywords": [
+    "copy",
+    "stream",
+    "file"
+  ],
+  "author": "coderaiser <mnemonic.enemy@gmail.com> (http://coderaiser.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cloudcmd/move-files/issues"
+  },
+  "homepage": "https://github.com/cloudcmd/move-files"
+}
