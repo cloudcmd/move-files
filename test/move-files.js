@@ -110,7 +110,7 @@ test('move-files: rename: success', async(t) => {
     });
 });
 
-test('move-files: emit directory', async (t) => {
+test('move-files: emit file: pause', async (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
     
@@ -150,7 +150,7 @@ test('move-files: emit directory', async (t) => {
         rerequire('copymitter');
         rerequire('mkdirp');
         
-        t.pass('should emit file');
+        t.ok(cp.pause.called, 'should call pause');
         t.end();
     });
     
@@ -159,7 +159,7 @@ test('move-files: emit directory', async (t) => {
     }, TIME);
 });
 
-test('move-files: emit directory', (t) => {
+test('move-files: emit directory: pause', (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
     
@@ -199,7 +199,7 @@ test('move-files: emit directory', (t) => {
         rerequire('copymitter');
         rerequire('mkdirp');
         
-        t.pass('should emit directory');
+        t.ok(cp.pause.called, 'should call pause');
         t.end();
     });
     
