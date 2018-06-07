@@ -1,0 +1,9 @@
+2018.06.07, v1.0.1
+
+fix:
+- (move-files) pause copy before remove
+- (move-files) emit end on abort
+
+feature:
+- (package) nyc v12.0.2
+

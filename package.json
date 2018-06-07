@@ -1,6 +1,6 @@
 {
   "name": "@cloudcmd/move-files",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "move files",
   "main": "lib/move-files.js",
   "scripts": {
