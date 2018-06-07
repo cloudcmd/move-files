@@ -61,6 +61,33 @@ test('move-files: error', async(t) => {
     });
 });
 
+test('move-files: error: abort: end', async(t) => {
+    const from = '/b';
+    const to = '/a';
+    const names = [
+        'README',
+    ];
+    
+    const vol = Volume.fromJSON(FIXTURE, '/');
+    vol.rename = vol.rename.bind(vol);
+    
+    mockRequire('fs', vol);
+    
+    const moveFiles = rerequire('..');
+    const mv = moveFiles(from, to, names);
+    
+    mv.on('error', () => {
+        mv.abort();
+    });
+    
+    mv.on('end', () => {
+        t.pass('should emit end');
+        
+        mockRequire.stop('fs');
+        t.end();
+    });
+});
+
 test('move-files: rename: success', async(t) => {
     const from = '/b';
     const to = '/a';
