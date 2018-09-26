@@ -4,7 +4,6 @@
   "description": "move files",
   "main": "lib/move-files.js",
   "scripts": {
-    "wisdom": "npm run build",
     "watch:coverage": "npm run watcher -- npm run coverage",
     "watch:test": "npm run watcher -- npm test",
     "watcher": "nodemon -w test -w lib --exec",
