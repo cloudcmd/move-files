@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@cloudcmd/rename-files": "^1.0.0",
-    "copymitter": "^3.1.1",
+    "copymitter": "^4.0.0",
     "currify": "^2.0.6",
     "es6-promisify": "^6.0.0",
     "fullstore": "^1.1.0",
