@@ -95,7 +95,7 @@ test('move-files: rename: success', async(t) => {
         'README',
     ];
     
-    const renameFiles = (from, to, names, fn) => fn();
+    const renameFiles = async () => {};
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     
@@ -126,8 +126,8 @@ test('move-files: emit file: pause', async (t) => {
         'README',
     ];
     
-    const renameFiles = (from, to, names, fn) => {
-        fn(Error('hello'));
+    const renameFiles = async () => {
+        throw Error('hello');
     };
     
     const fs = require('fs');
@@ -175,8 +175,8 @@ test('move-files: emit directory: pause', (t) => {
         'README',
     ];
     
-    const renameFiles = (from, to, names, fn) => {
-        fn(Error('hello'));
+    const renameFiles = async () => {
+        throw Error('hello');
     };
     
     const fs = require('fs');
@@ -225,8 +225,8 @@ test('move-files: emit end', async (t) => {
         'LICENSE',
     ];
     
-    const renameFiles = (from, to, names, fn) => {
-        fn(Error('hello'));
+    const renameFiles = async () => {
+        throw Error('hello');
     };
     
     const fs = require('fs');
@@ -278,8 +278,8 @@ test('move-files: emit progress', async (t) => {
         'LICENSE',
     ];
     
-    const renameFiles = (from, to, names, fn) => {
-        fn(Error('hello'));
+    const renameFiles = async () => {
+        throw Error('hello');
     };
     
     const fs = require('fs');
