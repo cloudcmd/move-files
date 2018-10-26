@@ -1,3 +1,10 @@
+2018.10.26, v2.0.3
+
+feature:
+- (package) sinon v7.1.0
+- (package) @cloudcmd/rename-files v2.0.0
+
+
 2018.10.10, v2.0.2
 
 feature:
