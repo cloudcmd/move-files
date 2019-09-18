@@ -19,7 +19,7 @@
     "copymitter": "^4.0.0",
     "currify": "^3.0.0",
     "fullstore": "^1.1.0",
-    "wraptile": "^2.0.0"
+    "wraptile": "^3.0.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
