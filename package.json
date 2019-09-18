@@ -4,15 +4,15 @@
   "description": "move files",
   "main": "lib/move-files.js",
   "scripts": {
-    "watch:coverage": "npm run watcher -- npm run coverage",
-    "watch:test": "npm run watcher -- npm test",
-    "watcher": "nodemon -w test -w lib --exec",
-    "test": "tape test/*.js",
-    "coverage": "nyc npm test",
-    "report": "nyc report --reporter=text-lcov | coveralls",
-    "lint:lib": "eslint lib",
-    "lint:test": "eslint test -c .eslintrc.test",
-    "lint": "redrun lint:*"
+    "watch:coverage": "madrun watch:coverage",
+    "watch:test": "madrun watch:test",
+    "watcher": "madrun watcher",
+    "test": "madrun test",
+    "coverage": "madrun coverage",
+    "report": "madrun report",
+    "lint": "madrun lint",
+    "lint:test": "madrun lint:test",
+    "fix:lint": "madrun fix:lint"
   },
   "dependencies": {
     "@cloudcmd/rename-files": "^2.0.0",
@@ -22,16 +22,20 @@
     "wraptile": "^3.0.0"
   },
   "devDependencies": {
+    "@cloudcmd/stub": "^2.3.2",
     "coveralls": "^3.0.0",
     "eslint": "^6.4.0",
     "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-putout": "^2.0.0",
+    "madrun": "^3.0.3",
     "memfs": "^2.8.0",
     "mock-require": "^3.0.2",
     "nodemon": "^1.11.0",
     "nyc": "^14.1.1",
+    "putout": "^6.0.0",
     "readjson": "^1.1.4",
     "redrun": "^7.0.2",
-    "sinon": "^7.1.0",
+    "supertape": "^1.2.3",
     "tape": "^4.2.0",
     "try-catch": "^2.0.0",
     "try-to-catch": "^1.0.2"

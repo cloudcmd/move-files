@@ -1,11 +1,10 @@
 'use strict';
 
 const {join} = require('path');
-
 const {EventEmitter} = require('events');
 
-const test = require('tape');
-const sinon = require('sinon');
+const test = require('supertape');
+const stub = require('@cloudcmd/stub');
 const readjson = require('readjson');
 const {Volume} = require('memfs');
 const tryCatch = require('try-catch');
@@ -114,9 +113,9 @@ test('move-files: emit file: pause', async (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
     
-    cp.continue = sinon.stub();
-    cp.abort = sinon.stub();
-    cp.pause = sinon.stub();
+    cp.continue = stub();
+    cp.abort = stub();
+    cp.pause = stub();
     
     const copymitter = () => cp;
     
@@ -163,9 +162,9 @@ test('move-files: emit directory: pause', (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
     
-    cp.continue = sinon.stub();
-    cp.abort = sinon.stub();
-    cp.pause = sinon.stub();
+    cp.continue = stub();
+    cp.abort = stub();
+    cp.pause = stub();
     
     const copymitter = () => cp;
     
@@ -212,9 +211,9 @@ test('move-files: emit end', async (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
     
-    cp.continue = sinon.stub();
-    cp.abort = sinon.stub();
-    cp.pause = sinon.stub();
+    cp.continue = stub();
+    cp.abort = stub();
+    cp.pause = stub();
     
     const copymitter = () => cp;
     
@@ -265,9 +264,9 @@ test('move-files: emit progress', async (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
     
-    cp.continue = sinon.stub();
-    cp.abort = sinon.stub();
-    cp.pause = sinon.stub();
+    cp.continue = stub();
+    cp.abort = stub();
+    cp.pause = stub();
     
     const copymitter = () => cp;
     
