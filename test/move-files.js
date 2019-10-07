@@ -9,6 +9,7 @@ const readjson = require('readjson');
 const {Volume} = require('memfs');
 const tryCatch = require('try-catch');
 const mockRequire = require('mock-require');
+const fs = require('fs').promises;
 
 const FIXTURE_PATH = join(__dirname, 'fixture', 'volume.json');
 const FIXTURE = readjson.sync(FIXTURE_PATH);
@@ -129,11 +130,8 @@ test('move-files: emit file: pause', async (t) => {
         throw Error('hello');
     };
     
-    const fs = require('fs');
     const {unlink} = fs;
-    fs.unlink = (path, fn) => {
-        fn();
-    };
+    fs.unlink = async () => {};
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
@@ -178,11 +176,8 @@ test('move-files: emit directory: pause', (t) => {
         throw Error('hello');
     };
     
-    const fs = require('fs');
     const {unlink} = fs;
-    fs.rmdir = (path, fn) => {
-        fn();
-    };
+    fs.rmdir = async () => {};
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
@@ -228,11 +223,8 @@ test('move-files: emit end', async (t) => {
         throw Error('hello');
     };
     
-    const fs = require('fs');
     const {unlink} = fs;
-    fs.unlink = (path, fn) => {
-        fn();
-    };
+    fs.unlink = async () => {};
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
@@ -281,11 +273,8 @@ test('move-files: emit progress', async (t) => {
         throw Error('hello');
     };
     
-    const fs = require('fs');
     const {unlink} = fs;
-    fs.unlink = (path, fn) => {
-        fn();
-    };
+    fs.unlink = async () => {};
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
