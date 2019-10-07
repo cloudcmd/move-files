@@ -1,3 +1,10 @@
+2019.10.07, v3.0.0
+
+feature:
+- (move-files) drop support of node < 10
+- (package) copymitter v5.0.0
+
+
 2019.09.20, v2.0.5
 
 feature:
