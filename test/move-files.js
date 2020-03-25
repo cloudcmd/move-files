@@ -38,7 +38,7 @@ test('move-files: no names', (t) => {
     t.end();
 });
 
-test('move-files: error', async(t) => {
+test('move-files: error', (t) => {
     const from = '/b';
     const to = '/a';
     const names = [
@@ -61,7 +61,7 @@ test('move-files: error', async(t) => {
     });
 });
 
-test('move-files: error: abort: end', async(t) => {
+test('move-files: error: abort: end', (t) => {
     const from = '/b';
     const to = '/a';
     const names = [
@@ -88,7 +88,7 @@ test('move-files: error: abort: end', async(t) => {
     });
 });
 
-test('move-files: rename: success', async(t) => {
+test('move-files: rename: success', (t) => {
     const from = '/b';
     const to = '/a';
     const names = [
