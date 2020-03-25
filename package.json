@@ -18,7 +18,7 @@
     "@cloudcmd/rename-files": "^2.0.0",
     "copymitter": "^5.0.0",
     "currify": "^4.0.0",
-    "fullstore": "^2.0.2",
+    "fullstore": "^3.0.0",
     "wraptile": "^3.0.0"
   },
   "devDependencies": {
