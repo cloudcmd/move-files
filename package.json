@@ -25,7 +25,7 @@
     "@cloudcmd/stub": "^2.3.2",
     "coveralls": "^3.0.0",
     "eslint": "^6.4.0",
-    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-putout": "^2.0.0",
     "madrun": "^3.0.3",
     "memfs": "^2.8.0",
