@@ -118,8 +118,10 @@ test('move-files: emit file: pause', async (t) => {
         throw Error('hello');
     };
     
-    const {unlink} = fs;
-    fs.unlink = async () => {};
+    const remove = stub().resolves();
+    mockRequire('redzip', {
+        remove,
+    });
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
@@ -127,21 +129,20 @@ test('move-files: emit file: pause', async (t) => {
     const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     
-    mv.once('file', () => {
-        mockRequire.stop('@cloudcmd/rename-files');
-        mockRequire.stop('copymitter');
-        
-        fs.unlink = unlink;
-        reRequire('copymitter');
-        reRequire('mkdirp');
-        
-        t.ok(cp.pause.called, 'should call pause');
-        t.end();
-    });
+    await wait(TIME, stub());
+    await Promise.all([
+        once(mv, 'file'),
+        cp.emit('file', 'helllo'),
+    ]);
     
-    setTimeout(() => {
-        cp.emit('file', 'helllo');
-    }, TIME);
+    mockRequire.stop('@cloudcmd/rename-files');
+    mockRequire.stop('copymitter');
+    
+    reRequire('copymitter');
+    reRequire('mkdirp');
+    
+    t.ok(cp.pause.called, 'should call pause');
+    t.end();
 });
 
 test('move-files: emit directory: pause', (t) => {
@@ -211,12 +212,11 @@ test('move-files: emit end', async (t) => {
         throw Error('hello');
     };
     
-    const unlink = async () => {};
-    
-    mockRequire('fs/promises', {
-        ...require('fs/promises'),
-        unlink,
+    const remove = stub().resolves();
+    mockRequire('redzip', {
+        remove,
     });
+    
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
     
@@ -247,52 +247,50 @@ test('move-files: emit end', async (t) => {
 test('move-files: emit progress', async (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
-
+    
     cp.continue = stub();
     cp.abort = stub();
     cp.pause = stub();
-
+    
     const copymitter = () => cp;
-
+    
     const from = '/b';
     const to = '/a';
     const names = [
         'README',
         'LICENSE',
     ];
-
+    
     const renameFiles = async () => {
         throw Error('hello');
-        cp.emit('end');
     };
-
-    const unlink = stub().resolves();
-
-    mockRequire('fs/promises', {
-        ...require('fs/promises'),
-        unlink,
+    
+    const remove = stub().resolves();
+    
+    mockRequire('redzip', {
+        remove,
     });
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
-
+    
     const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     
     await wait(TIME, stub());
     
-    const emitProgress = async () => {
+    const emitProgress = () => {
         cp.emit('progress', 50);
         cp.emit('file', 'hello');
     };
-
+    
     const [[n]] = await Promise.all([
         once(mv, 'progress'),
         emitProgress(),
     ]);
     
     stopAll();
-
+    
     t.pass('should emit file');
     t.equal(n, 50, 'should emit progress');
     t.end();

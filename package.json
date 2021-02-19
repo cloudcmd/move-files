@@ -19,6 +19,7 @@
     "copymitter": "^6.0.3",
     "currify": "^4.0.0",
     "fullstore": "^3.0.0",
+    "redzip": "^1.12.2",
     "wraptile": "^3.0.0"
   },
   "devDependencies": {
