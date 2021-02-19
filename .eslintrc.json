@@ -1,16 +1,16 @@
 {
-  "overrides": [{
-      "files": ["lib/**", "test/**"],
-      "rules": {
-          "node/no-unsupported-features/node-builtins": "off"
-      }
-  }],
-  "extends": [
-      "plugin:putout/recommended",
-      "plugin:node/recommended"
-  ],
-  "plugins": [
-    "putout",
-    "node"
-  ]
+    "overrides": [{
+        "files": ["lib/**", "test/**"],
+        "rules": {
+            "node/no-unsupported-features/node-builtins": "off"
+        }
+    }],
+    "extends": [
+        "plugin:node/recommended",
+        "plugin:putout/recommended"
+    ],
+    "plugins": [
+        "putout",
+        "node"
+    ]
 }

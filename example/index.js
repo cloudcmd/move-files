@@ -4,7 +4,7 @@ const moveFiles = require('..');
 const wraptile = require('wraptile');
 
 const move = moveFiles('/tmp', '/tmp/root', [
-    'ischanged'
+    'ischanged',
 ]);
 
 move.on('file', console.log)

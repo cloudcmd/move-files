@@ -4,3 +4,5 @@ npm-debug.log
 .*.swp
 yarn-error.log
 
+*.swp
+coverage

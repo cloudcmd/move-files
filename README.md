@@ -1,6 +1,6 @@
 # Move Files [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL] [![Coverage Status][CoverageIMGURL]][CoverageURL]
 
-Move files with emitter. Try to `rename` files first, and only if fail move them.
+Move files with emitter and `zip` archives support. Try to `rename` files first, and only if fail move them.
 
 ### Install
 
@@ -20,18 +20,18 @@ const abortOnError = false;
 const mv = moveFiles(from, to, [
     'LICENSE',
     'README.md',
-    'package.json'
+    'package.json',
 ]);
 
-mv.on('file', function(from, to) {
+mv.on('file', (from, to) => {
     console.log(`${from} -> ${to}`);
 });
 
-mv.on('directory', function(from, to) {
+mv.on('directory', (from, to) => {
     console.log(`${from} -> ${to}`);
 });
 
-mv.on('progress', function(percent) {
+mv.on('progress', (percent) => {
     console.log(percent);
     
     if (percent >= 50) {
@@ -54,7 +54,7 @@ mv.on('error', (error) => {
     mv.continue();
 });
 
-mv.on('end', function() {
+mv.on('end', () => {
     console.log('Moving ended up');
 });
 
@@ -72,14 +72,13 @@ mv.pause();
 
 MIT
 
-[NPMIMGURL]:                https://img.shields.io/npm/v/@cloudcmd/move-files.svg?style=flat
-[BuildStatusIMGURL]:        https://img.shields.io/travis/cloudcmd/move-files/master.svg?style=flat
-[DependencyStatusIMGURL]:   https://img.shields.io/david/cloudcmd/move-files.svg?style=flat
-[LicenseIMGURL]:            https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
-[CoverageIMGURL]:           https://coveralls.io/repos/cloudcmd/move-files/badge.svg?branch=master&service=github
-[NPMURL]:                   https://npmjs.org/package/@cloudcmd/move-files "npm"
-[BuildStatusURL]:           https://travis-ci.org/cloudcmd/move-files  "Build Status"
-[DependencyStatusURL]:      https://david-dm.org/cloudcmd/move-files "Dependency Status"
-[LicenseURL]:               https://tldrlegal.com/license/mit-license "MIT License"
-[CoverageURL]:              https://coveralls.io/github/cloudcmd/move-files?branch=master
-
+[NPMIMGURL]: https://img.shields.io/npm/v/@cloudcmd/move-files.svg?style=flat
+[BuildStatusIMGURL]: https://img.shields.io/travis/cloudcmd/move-files/master.svg?style=flat
+[DependencyStatusIMGURL]: https://img.shields.io/david/cloudcmd/move-files.svg?style=flat
+[LicenseIMGURL]: https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
+[CoverageIMGURL]: https://coveralls.io/repos/cloudcmd/move-files/badge.svg?branch=master&service=github
+[NPMURL]: https://npmjs.org/package/@cloudcmd/move-files "npm"
+[BuildStatusURL]: https://travis-ci.org/cloudcmd/move-files "Build Status"
+[DependencyStatusURL]: https://david-dm.org/cloudcmd/move-files "Dependency Status"
+[LicenseURL]: https://tldrlegal.com/license/mit-license "MIT License"
+[CoverageURL]: https://coveralls.io/github/cloudcmd/move-files?branch=master

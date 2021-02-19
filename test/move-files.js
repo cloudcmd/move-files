@@ -1,23 +1,29 @@
 'use strict';
 
 const {join} = require('path');
-const {EventEmitter} = require('events');
+const fs = require('fs/promises');
+const {
+    once,
+    EventEmitter,
+} = require('events');
 
-const test = require('supertape');
-const stub = require('@cloudcmd/stub');
+const {test, stub} = require('supertape');
 const readjson = require('readjson');
 const {Volume} = require('memfs');
 const tryCatch = require('try-catch');
 const mockRequire = require('mock-require');
-const fs = require('fs').promises;
+const wait = require('@iocmd/wait');
+
+const moveFiles = require('..');
 
 const FIXTURE_PATH = join(__dirname, 'fixture', 'volume.json');
 const FIXTURE = readjson.sync(FIXTURE_PATH);
 
-const moveFiles = require('..');
+const {stopAll, reRequire} = mockRequire;
 
 test('move-files: no args', (t) => {
-    t.throws(moveFiles, /from should be a string!/, 'should throw when no from');
+    const [error] = tryCatch(moveFiles);
+    t.equal(error.message, 'from should be a string!', 'should throw when no from');
     t.end();
 });
 
@@ -38,76 +44,58 @@ test('move-files: no names', (t) => {
     t.end();
 });
 
-test('move-files: error', (t) => {
+test('move-files: error', async (t) => {
     const from = '/b';
     const to = '/a';
-    const names = [
-        'README',
-    ];
-    
+    const names = ['README'];
     const vol = Volume.fromJSON(FIXTURE, '/');
     vol.rename = vol.rename.bind(vol);
-    
     mockRequire('fs', vol);
-    
-    const moveFiles = rerequire('..');
+    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
-    
-    mv.on('error', (e) => {
-        t.equal(e.code, 'ENOENT', 'should be error');
-        
-        mockRequire.stop('fs');
-        t.end();
-    });
+    const [e] = await once(mv, 'error');
+    t.equal(e.code, 'ENOENT', 'should be error');
+    mockRequire.stop('fs');
+    t.end();
 });
 
-test('move-files: error: abort: end', (t) => {
+test('move-files: error: abort: end', async (t) => {
     const from = '/b';
     const to = '/a';
-    const names = [
-        'README',
-    ];
-    
+    const names = ['README'];
     const vol = Volume.fromJSON(FIXTURE, '/');
     vol.rename = vol.rename.bind(vol);
-    
     mockRequire('fs', vol);
     
-    const moveFiles = rerequire('..');
+    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     
-    mv.on('error', () => {
-        mv.abort();
-    });
+    await once(mv, 'error');
+    const abort = mv.abort.bind(mv);
     
-    mv.on('end', () => {
-        t.pass('should emit end');
-        
-        mockRequire.stop('fs');
-        t.end();
-    });
+    await Promise.all([
+        once(mv, 'end'),
+        abort(),
+    ]);
+    
+    mockRequire.stop('fs');
+    
+    t.pass('should emit end');
+    t.end();
 });
 
-test('move-files: rename: success', (t) => {
+test('move-files: rename: success', async (t) => {
     const from = '/b';
     const to = '/a';
-    const names = [
-        'README',
-    ];
-    
+    const names = ['README'];
     const renameFiles = async () => {};
-    
     mockRequire('@cloudcmd/rename-files', renameFiles);
-    
-    const moveFiles = rerequire('..');
+    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
-    
-    mv.on('end', () => {
-        mockRequire.stop('@cloudcmd/rename-files');
-        
-        t.pass('should rename files');
-        t.end();
-    });
+    await once(mv, 'end');
+    mockRequire.stop('@cloudcmd/rename-files');
+    t.pass('should rename files');
+    t.end();
 });
 
 test('move-files: emit file: pause', async (t) => {
@@ -136,7 +124,7 @@ test('move-files: emit file: pause', async (t) => {
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
     
-    const moveFiles = rerequire('..');
+    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     
     mv.once('file', () => {
@@ -144,8 +132,8 @@ test('move-files: emit file: pause', async (t) => {
         mockRequire.stop('copymitter');
         
         fs.unlink = unlink;
-        rerequire('copymitter');
-        rerequire('mkdirp');
+        reRequire('copymitter');
+        reRequire('mkdirp');
         
         t.ok(cp.pause.called, 'should call pause');
         t.end();
@@ -182,7 +170,7 @@ test('move-files: emit directory: pause', (t) => {
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
     
-    const moveFiles = rerequire('..');
+    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     
     mv.once('directory', () => {
@@ -190,8 +178,8 @@ test('move-files: emit directory: pause', (t) => {
         mockRequire.stop('copymitter');
         
         fs.unlink = unlink;
-        rerequire('copymitter');
-        rerequire('mkdirp');
+        reRequire('copymitter');
+        reRequire('mkdirp');
         
         t.ok(cp.pause.called, 'should call pause');
         t.end();
@@ -223,86 +211,90 @@ test('move-files: emit end', async (t) => {
         throw Error('hello');
     };
     
-    const {unlink} = fs;
-    fs.unlink = async () => {};
+    const unlink = async () => {};
     
+    mockRequire('fs/promises', {
+        ...require('fs/promises'),
+        unlink,
+    });
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
     
-    const moveFiles = rerequire('..');
+    const moveFiles = reRequire('..');
+    
     const mv = moveFiles(from, to, names);
+    await wait(TIME, stub());
     
-    mv.on('end', () => {
-        mockRequire.stop('@cloudcmd/rename-files');
-        mockRequire.stop('copymitter');
-        
-        fs.unlink = unlink;
-        rerequire('copymitter');
-        rerequire('mkdirp');
-        
-        t.pass('should emit file');
-        t.end();
-    });
-    
-    setTimeout(() => {
+    const emitCP = () => {
         cp.emit('progress', 50);
         cp.emit('file', 'README');
         cp.emit('progress', 100);
         cp.emit('file', 'LICENSE');
-    }, TIME);
+        cp.emit('end');
+    };
+    
+    await Promise.all([
+        once(mv, 'end'),
+        emitCP(),
+    ]);
+    
+    stopAll();
+    
+    t.pass('should emit file');
+    t.end();
 });
 
 test('move-files: emit progress', async (t) => {
     const TIME = 10;
     const cp = new EventEmitter();
-    
+
     cp.continue = stub();
     cp.abort = stub();
     cp.pause = stub();
-    
+
     const copymitter = () => cp;
-    
+
     const from = '/b';
     const to = '/a';
     const names = [
         'README',
         'LICENSE',
     ];
-    
+
     const renameFiles = async () => {
         throw Error('hello');
+        cp.emit('end');
     };
-    
-    const {unlink} = fs;
-    fs.unlink = async () => {};
+
+    const unlink = stub().resolves();
+
+    mockRequire('fs/promises', {
+        ...require('fs/promises'),
+        unlink,
+    });
     
     mockRequire('@cloudcmd/rename-files', renameFiles);
     mockRequire('copymitter', copymitter);
-    
-    const moveFiles = rerequire('..');
+
+    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     
-    mv.on('progress', (n) => {
-        mockRequire.stop('@cloudcmd/rename-files');
-        mockRequire.stop('copymitter');
-        
-        fs.unlink = unlink;
-        rerequire('copymitter');
-        rerequire('mkdirp');
-        
-        t.pass('should emit file');
-        t.equal(n, 50, 'should emit progress');
-        t.end();
-    });
+    await wait(TIME, stub());
     
-    setTimeout(() => {
+    const emitProgress = async () => {
         cp.emit('progress', 50);
         cp.emit('file', 'hello');
-    }, TIME);
-});
+    };
 
-function rerequire(name) {
-    delete require.cache[require.resolve(name)];
-    return require(name);
-}
+    const [[n]] = await Promise.all([
+        once(mv, 'progress'),
+        emitProgress(),
+    ]);
+    
+    stopAll();
+
+    t.pass('should emit file');
+    t.equal(n, 50, 'should emit progress');
+    t.end();
+});
 
