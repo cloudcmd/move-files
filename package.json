@@ -34,8 +34,7 @@
     "nyc": "^15.0.0",
     "putout": "^15.1.2",
     "readjson": "^2.0.1",
-    "supertape": "^1.2.3",
-    "tape": "^4.2.0",
+    "supertape": "^4.9.1",
     "try-catch": "^3.0.0",
     "try-to-catch": "^3.0.0"
   },
