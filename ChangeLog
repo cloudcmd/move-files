@@ -1,3 +1,17 @@
+2021.02.19, v4.0.0
+
+feature:
+- feature(@cloudcmd/move-files) add support of zip archives
+- feature(package) @cloudcmd/stub v3.4.0
+- feature(package) eslint v7.20.0
+- feature(package) supertape v4.9.1
+- feature(package) copymitter v6.0.3
+- feature(package) eslint-plugin-putout v7.1.1
+- feature(package) putout v15.1.2
+- feature(package) madrun v8.8.0
+
+
+
 2020.03.25, v3.0.1
 
 feature:
