@@ -6,7 +6,7 @@ export default {
     'watcher': () => 'nodemon -w test -w lib --exec',
     'test': () => 'tape test/*.js',
     'coverage': () => 'c8 npm test',
-    'report': () => 'c8 report --reporter=text-lcov | coveralls',
+    'report': () => 'c8 report --reporter=lcov',
     'lint': () => 'putout .',
     'fresh:lint': () => run('lint', '--fresh'),
     'lint:fresh': () => run('lint', '--fresh'),
