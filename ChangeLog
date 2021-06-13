@@ -1,3 +1,12 @@
+2021.06.13, v5.0.0
+
+feature:
+- (@cloudcmd/move) move: partial copy + partial remove -> full copy -> remove
+- (package) putout v18.1.0
+- (package) eslint-plugin-putout v8.0.1
+
+
+
 2021.02.27, v4.0.2
 
 feature:
