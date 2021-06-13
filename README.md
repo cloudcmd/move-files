@@ -1,6 +1,6 @@
 # Move Files [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL] [![Coverage Status][CoverageIMGURL]][CoverageURL]
 
-Move files with emitter and `zip` archives support. Try to `rename` files first, and only if fail move them.
+Move files with emitter and `zip` archives support. Try to `rename` files first, and only if fail copy them to destination and then remove from source.
 
 ### Install
 

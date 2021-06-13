@@ -1,7 +1,6 @@
 'use strict';
 
 const {join} = require('path');
-const fs = require('fs/promises');
 const {
     once,
     EventEmitter,
@@ -96,99 +95,6 @@ test('move-files: rename: success', async (t) => {
     mockRequire.stop('@cloudcmd/rename-files');
     t.pass('should rename files');
     t.end();
-});
-
-test('move-files: emit file: pause', async (t) => {
-    const TIME = 10;
-    const cp = new EventEmitter();
-    
-    cp.continue = stub();
-    cp.abort = stub();
-    cp.pause = stub();
-    
-    const copymitter = () => cp;
-    
-    const from = '/b';
-    const to = '/a';
-    const names = [
-        'README',
-    ];
-    
-    const renameFiles = async () => {
-        throw Error('hello');
-    };
-    
-    const remove = stub().resolves();
-    mockRequire('redzip', {
-        remove,
-    });
-    
-    mockRequire('@cloudcmd/rename-files', renameFiles);
-    mockRequire('copymitter', copymitter);
-    
-    const moveFiles = reRequire('..');
-    const mv = moveFiles(from, to, names);
-    
-    await wait(TIME, stub());
-    await Promise.all([
-        once(mv, 'file'),
-        cp.emit('file', 'helllo'),
-    ]);
-    
-    mockRequire.stop('@cloudcmd/rename-files');
-    mockRequire.stop('copymitter');
-    
-    reRequire('copymitter');
-    reRequire('mkdirp');
-    
-    t.ok(cp.pause.called, 'should call pause');
-    t.end();
-});
-
-test('move-files: emit directory: pause', (t) => {
-    const TIME = 10;
-    const cp = new EventEmitter();
-    
-    cp.continue = stub();
-    cp.abort = stub();
-    cp.pause = stub();
-    
-    const copymitter = () => cp;
-    
-    const from = '/b';
-    const to = '/a';
-    const names = [
-        'README',
-    ];
-    
-    const renameFiles = async () => {
-        throw Error('hello');
-    };
-    
-    const {unlink} = fs;
-    fs.rmdir = async () => {};
-    
-    mockRequire('@cloudcmd/rename-files', renameFiles);
-    mockRequire('copymitter', copymitter);
-    
-    const moveFiles = reRequire('..');
-    const mv = moveFiles(from, to, names);
-    
-    mv.once('directory', () => {
-        mockRequire.stop('@cloudcmd/rename-files');
-        mockRequire.stop('copymitter');
-        
-        fs.unlink = unlink;
-        reRequire('copymitter');
-        reRequire('mkdirp');
-        
-        t.ok(cp.pause.called, 'should call pause');
-        t.end();
-    });
-    
-    setTimeout(() => {
-        cp.emit('directory', 'helllo');
-    }, TIME);
 });
 
 test('move-files: emit end', async (t) => {
