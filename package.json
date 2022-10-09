@@ -36,7 +36,7 @@
     "nodemon": "^2.0.2",
     "putout": "^27.13.0",
     "readjson": "^2.0.1",
-    "supertape": "^5.0.0",
+    "supertape": "^8.1.0",
     "try-catch": "^3.0.0",
     "try-to-catch": "^3.0.0"
   },
