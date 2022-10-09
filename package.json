@@ -3,6 +3,7 @@
   "version": "5.0.0",
   "description": "move files",
   "main": "lib/move-files.js",
+  "commitType": "colon",
   "scripts": {
     "watch:coverage": "madrun watch:coverage",
     "watch:test": "madrun watch:test",
@@ -40,7 +41,7 @@
     "try-to-catch": "^3.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "repository": {
     "type": "git",
