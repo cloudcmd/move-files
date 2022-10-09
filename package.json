@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@cloudcmd/rename-files": "^2.0.0",
-    "copymitter": "^6.0.3",
+    "copymitter": "^7.0.0",
     "currify": "^4.0.0",
     "fullstore": "^3.0.0",
     "redzip": "^2.0.0",
