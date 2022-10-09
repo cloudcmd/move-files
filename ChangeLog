@@ -1,3 +1,17 @@
+2022.10.09, v6.0.0
+
+feature:
+- add ability to handle errors while copying (https://github.com/coderaiser/cloudcmd/issues/383)
+- package: @iocmd/wait v2.1.0
+- package: supertape v8.1.0
+- package: eslint v8.25.0
+- package: eslint-plugin-putout v16.3.0
+- package: madrun v9.0.6
+- package: putout v27.13.0
+- package: copymitter v7.0.0
+- move-files: drop support of node < 16
+- (@cloudcmd/move) move: partial copy + partial remove -> full copy -> remove (coderaiser/cloudcmd#350)
+
 2021.06.13, v5.0.0
 
 feature:
