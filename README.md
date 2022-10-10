@@ -74,9 +74,10 @@ MIT
 
 [NPMIMGURL]: https://img.shields.io/npm/v/@cloudcmd/move-files.svg?style=flat
 [BuildStatusURL]: https://github.com/cloudcmd/move-files/actions
-[BuildStatusIMGURL]: https://github.com/cloudcmd/move-files/workflows/CI/badge.svg
+[BuildStatusIMGURL]: https://github.com/cloudcmd/move-files/actions/workflows/nodejs.yml/badge.svg
 [LicenseIMGURL]: https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
 [CoverageIMGURL]: https://coveralls.io/repos/cloudcmd/move-files/badge.svg?branch=master&service=github
 [NPMURL]: https://npmjs.org/package/@cloudcmd/move-files "npm"
 [LicenseURL]: https://tldrlegal.com/license/mit-license "MIT License"
 [CoverageURL]: https://coveralls.io/github/cloudcmd/move-files?branch=master
+
