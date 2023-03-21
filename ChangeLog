@@ -1,3 +1,12 @@
+2023.03.21, v7.0.0
+
+feature:
+- 17de96d package: copymitter v8.0.1
+- 0904aa1 @cloudcmd/move-files: add support of abort
+- 6d20221 package: eslint-plugin-putout v17.1.0
+- fce121b package: supertape v8.3.0
+- 684e6c0 package: putout v29.1.5
+
 2022.10.09, v6.0.0
 
 feature:
