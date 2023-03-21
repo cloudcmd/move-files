@@ -4,7 +4,6 @@
   "type": "commonjs",
   "description": "move files",
   "main": "lib/move-files.js",
-  "commitType": "colon",
   "scripts": {
     "watch:coverage": "madrun watch:coverage",
     "watch:test": "madrun watch:test",

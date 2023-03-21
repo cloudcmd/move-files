@@ -63,7 +63,7 @@ test('move-files: error', async (t) => {
     t.end();
 });
 
-test('move-files: error: abort: end', async (t) => {
+test('move-files: error: abort: abort', async (t) => {
     const from = '/b';
     const to = '/a';
     const names = ['README'];
@@ -79,7 +79,7 @@ test('move-files: error: abort: end', async (t) => {
     const abort = mv.abort.bind(mv);
     
     await Promise.all([
-        once(mv, 'end'),
+        once(mv, 'abort'),
         abort(),
     ]);
     
@@ -87,7 +87,7 @@ test('move-files: error: abort: end', async (t) => {
     
     stopAll();
     
-    t.pass('should emit end');
+    t.pass(`should emit 'aborted'`);
     t.end();
 });
 

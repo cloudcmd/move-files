@@ -13,8 +13,8 @@ npm i @cloudcmd/move-files
 ```js
 const moveFiles = require('@cloudcmd/move-files');
 const cwd = process.cwd();
-const from = cwd + '/pipe-io';
-const to = cwd + '/example';
+const from = `${cwd}/pipe-io`;
+const to = `${cwd}/example`;
 const abortOnError = false;
 
 const mv = moveFiles(from, to, [
@@ -48,14 +48,15 @@ mv.on('pause', () => {
 mv.on('error', (error) => {
     console.error(`${percent} -> ${name}: ${error.message}`);
     
-    if (abortOnError)
-        return mv.abort();
-    
     mv.continue();
 });
 
 mv.on('end', () => {
     console.log('Moving ended up');
+});
+
+mv.on('abort', () => {
+    console.log('Aborted');
 });
 
 mv.pause();
@@ -80,4 +81,3 @@ MIT
 [NPMURL]: https://npmjs.org/package/@cloudcmd/move-files "npm"
 [LicenseURL]: https://tldrlegal.com/license/mit-license "MIT License"
 [CoverageURL]: https://coveralls.io/github/cloudcmd/move-files?branch=master
-
