@@ -1,10 +1,7 @@
 'use strict';
 
 const {join} = require('path');
-const {
-    once,
-    EventEmitter,
-} = require('events');
+const {once, EventEmitter} = require('events');
 
 const {test, stub} = require('supertape');
 const readjson = require('readjson');
@@ -100,6 +97,7 @@ test('move-files: rename: success', async (t) => {
     mockRequire('@cloudcmd/rename-files', renameFiles);
     const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
+    
     await once(mv, 'end');
     mockRequire.stop('@cloudcmd/rename-files');
     stopAll();
@@ -120,6 +118,7 @@ test('move-files: emit end', async (t) => {
     
     const from = '/b';
     const to = '/a';
+    
     const names = [
         'README',
         'LICENSE',
@@ -173,6 +172,7 @@ test('move-files: emit end: errors', async (t) => {
     
     const from = '/b';
     const to = '/a';
+    
     const names = [
         'README',
         'LICENSE',
@@ -226,6 +226,7 @@ test('move-files: emit progress', async (t) => {
     
     const from = '/b';
     const to = '/a';
+    
     const names = [
         'README',
         'LICENSE',
@@ -262,5 +263,6 @@ test('move-files: emit progress', async (t) => {
     t.pass('should emit file');
     t.equal(n, 50, 'should emit progress');
     t.end();
-}, {checkAssertionsCount: false});
-
+}, {
+    checkAssertionsCount: false,
+});

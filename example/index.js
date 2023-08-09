@@ -3,11 +3,10 @@
 const moveFiles = require('..');
 const wraptile = require('wraptile');
 
-const move = moveFiles('/tmp', '/tmp/root', [
-    'ischanged',
-]);
+const move = moveFiles('/tmp', '/tmp/root', ['ischanged']);
+const {log} = console;
 
-move.on('file', console.log)
-    .on('error', console.log)
-    .on('end', wraptile(console.log, 'done'));
-
+move
+    .on('file', log)
+    .on('error', log)
+    .on('end', wraptile(log, 'done'));

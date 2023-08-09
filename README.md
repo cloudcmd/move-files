@@ -17,11 +17,7 @@ const from = `${cwd}/pipe-io`;
 const to = `${cwd}/example`;
 const abortOnError = false;
 
-const mv = moveFiles(from, to, [
-    'LICENSE',
-    'README.md',
-    'package.json',
-]);
+const mv = moveFiles(from, to, ['LICENSE', 'README.md', 'package.json']);
 
 mv.on('file', (from, to) => {
     console.log(`${from} -> ${to}`);
