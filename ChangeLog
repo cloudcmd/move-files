@@ -1,3 +1,13 @@
+2023.08.09, v7.1.0
+
+feature:
+- 1898a5e package: putout v31.0.4
+- 1bf5a68 package: eslint-plugin-putout v19.0.3
+- 253bfbe package: c8 v8.0.1
+- e9a1ad3 package: memfs v4.2.1
+- cd77874 package: nodemon v3.0.1
+- 5da536e package: redzip v3.0.0
+
 2023.03.21, v7.0.0
 
 feature:
