@@ -35,12 +35,13 @@
     "nodemon": "^3.0.1",
     "putout": "^35.20.0",
     "readjson": "^2.0.1",
+    "redlint": "^3.14.1",
     "supertape": "^10.5.0",
     "try-catch": "^3.0.0",
     "try-to-catch": "^3.0.0"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
