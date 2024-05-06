@@ -1,7 +1,7 @@
 'use strict';
 
-const {join} = require('path');
-const {once, EventEmitter} = require('events');
+const {join} = require('node:path');
+const {once, EventEmitter} = require('node:events');
 
 const {test, stub} = require('supertape');
 const readjson = require('readjson');
