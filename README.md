@@ -11,7 +11,7 @@ npm i @cloudcmd/move-files
 ### How to use?
 
 ```js
-const moveFiles = require('@cloudcmd/move-files');
+import {moveFiles} from '@cloudcmd/move-files';
 const cwd = process.cwd();
 const from = `${cwd}/pipe-io`;
 const to = `${cwd}/example`;

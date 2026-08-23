@@ -2,7 +2,7 @@ import {once, EventEmitter} from 'node:events';
 import {test, stub} from 'supertape';
 import {tryCatch} from 'try-catch';
 import wait from '@iocmd/wait';
-import moveFiles from '../lib/move-files.js';
+import {moveFiles} from '../lib/move-files.js';
 
 const TIME = 10;
 
