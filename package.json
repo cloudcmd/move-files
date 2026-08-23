@@ -20,7 +20,7 @@
     "copymitter": "^10.3.2",
     "currify": "^4.0.0",
     "fullstore": "^4.0.3",
-    "redzip": "^3.0.0",
+    "redzip": "^4.6.1",
     "wraptile": "^3.0.0"
   },
   "devDependencies": {
