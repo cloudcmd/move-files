@@ -37,7 +37,7 @@
     "redlint": "^6.9.2",
     "superc8": "^12.7.0",
     "supertape": "^13.5.1",
-    "try-catch": "^3.0.0",
+    "try-catch": "^4.0.9",
     "try-to-catch": "^3.0.0"
   },
   "engines": {
