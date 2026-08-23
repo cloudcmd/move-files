@@ -1,21 +1,8 @@
-'use strict';
-
-const {join} = require('node:path');
-const {once, EventEmitter} = require('node:events');
-
-const {test, stub} = require('supertape');
-const readjson = require('readjson');
-const {Volume} = require('memfs');
-const {tryCatch} = require('try-catch');
-const mockRequire = require('mock-require');
-const wait = require('@iocmd/wait');
-
-const moveFiles = require('..');
-
-const FIXTURE_PATH = join(__dirname, 'fixture', 'volume.json');
-const FIXTURE = readjson.sync(FIXTURE_PATH);
-
-const {stopAll, reRequire} = mockRequire;
+import {once, EventEmitter} from 'node:events';
+import {test, stub} from 'supertape';
+import {tryCatch} from 'try-catch';
+import wait from '@iocmd/wait';
+import moveFiles from '../lib/move-files.js';
 
 test('move-files: no args', (t) => {
     const [error] = tryCatch(moveFiles);
@@ -45,18 +32,9 @@ test('move-files: error', async (t) => {
     const from = '/b';
     const to = '/a';
     const names = ['README'];
-    const vol = Volume.fromJSON(FIXTURE, '/');
     
-    vol.rename = vol.rename.bind(vol);
-    mockRequire('fs', vol);
-    
-    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     const [e] = await once(mv, 'error');
-    
-    stopAll();
-    
-    mockRequire.stop('fs');
     
     t.equal(e.code, 'ENOENT', 'should be error');
     t.end();
@@ -66,12 +44,7 @@ test('move-files: error: abort: abort', async (t) => {
     const from = '/b';
     const to = '/a';
     const names = ['README'];
-    const vol = Volume.fromJSON(FIXTURE, '/');
     
-    vol.rename = vol.rename.bind(vol);
-    mockRequire('fs', vol);
-    
-    const moveFiles = reRequire('..');
     const mv = moveFiles(from, to, names);
     
     await once(mv, 'error');
@@ -81,10 +54,6 @@ test('move-files: error: abort: abort', async (t) => {
         once(mv, 'abort'),
         abort(),
     ]);
-    
-    mockRequire.stop('fs');
-    
-    stopAll();
     
     t.pass(`should emit 'aborted'`);
     t.end();
@@ -96,13 +65,11 @@ test('move-files: rename: success', async (t) => {
     const names = ['README'];
     const renameFiles = stub().resolves();
     
-    mockRequire('@cloudcmd/rename-files', renameFiles);
-    const moveFiles = reRequire('..');
-    const mv = moveFiles(from, to, names);
+    const mv = moveFiles(from, to, names, {
+        renameFiles,
+    });
     
     await once(mv, 'end');
-    mockRequire.stop('@cloudcmd/rename-files');
-    stopAll();
     
     t.pass('should rename files');
     t.end();
@@ -129,16 +96,12 @@ test('move-files: emit end', async (t) => {
     const renameFiles = stub().rejects(Error('hello'));
     
     const remove = stub().resolves();
-    mockRequire('redzip', {
+    const mv = moveFiles(from, to, names, {
         remove,
+        renameFiles,
+        copymitter,
     });
     
-    mockRequire('@cloudcmd/rename-files', renameFiles);
-    mockRequire('copymitter', copymitter);
-    
-    const moveFiles = reRequire('..');
-    
-    const mv = moveFiles(from, to, names);
     await wait(TIME, stub());
     
     const emitCP = () => {
@@ -155,8 +118,6 @@ test('move-files: emit end', async (t) => {
         once(mv, 'end'),
         emitCP(),
     ]);
-    
-    stopAll();
     
     t.pass('should emit file');
     t.end();
@@ -183,16 +144,12 @@ test('move-files: emit end: errors', async (t) => {
     const renameFiles = stub().rejects(Error('hello'));
     
     const remove = stub().resolves();
-    mockRequire('redzip', {
+    const mv = moveFiles(from, to, names, {
+        copymitter,
+        renameFiles,
         remove,
     });
     
-    mockRequire('@cloudcmd/rename-files', renameFiles);
-    mockRequire('copymitter', copymitter);
-    
-    const moveFiles = reRequire('..');
-    
-    const mv = moveFiles(from, to, names);
     await wait(TIME, stub());
     
     const emitCP = () => {
@@ -209,8 +166,6 @@ test('move-files: emit end: errors', async (t) => {
         once(mv, 'end'),
         emitCP(),
     ]);
-    
-    stopAll();
     
     t.pass('should emit file');
     t.end();
@@ -237,16 +192,11 @@ test('move-files: emit progress', async (t) => {
     const renameFiles = stub().rejects(Error('hello'));
     
     const remove = stub().resolves();
-    
-    mockRequire('redzip', {
+    const mv = moveFiles(from, to, names, {
+        copymitter,
+        renameFiles,
         remove,
     });
-    
-    mockRequire('@cloudcmd/rename-files', renameFiles);
-    mockRequire('copymitter', copymitter);
-    
-    const moveFiles = reRequire('..');
-    const mv = moveFiles(from, to, names);
     
     await wait(TIME, stub());
     
@@ -260,9 +210,6 @@ test('move-files: emit progress', async (t) => {
         emitProgress(),
     ]);
     
-    stopAll();
-    
-    t.pass('should emit file');
     t.equal(n, 50, 'should emit progress');
     t.end();
 }, {

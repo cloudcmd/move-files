@@ -1,7 +1,5 @@
-'use strict';
-
-const wraptile = require('wraptile');
-const moveFiles = require('..');
+import wraptile from 'wraptile';
+import moveFiles from '../lib/move-files.js';
 
 const move = moveFiles('/tmp', '/tmp/root', ['ischanged']);
 const {log} = console;
