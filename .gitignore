@@ -1,9 +1,10 @@
-node_modules
-npm-debug.log
+*.swp
+*.log
+*.lock
+
 .nyc_output
 .*.swp
-yarn-error.log
-
-*.swp
-coverage
 .idea
+
+node_modules
+coverage

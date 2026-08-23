@@ -6,7 +6,7 @@ const {once, EventEmitter} = require('node:events');
 const {test, stub} = require('supertape');
 const readjson = require('readjson');
 const {Volume} = require('memfs');
-const tryCatch = require('try-catch');
+const {tryCatch} = require('try-catch');
 const mockRequire = require('mock-require');
 const wait = require('@iocmd/wait');
 
@@ -55,8 +55,10 @@ test('move-files: error', async (t) => {
     const [e] = await once(mv, 'error');
     
     stopAll();
-    t.equal(e.code, 'ENOENT', 'should be error');
+    
     mockRequire.stop('fs');
+    
+    t.equal(e.code, 'ENOENT', 'should be error');
     t.end();
 });
 

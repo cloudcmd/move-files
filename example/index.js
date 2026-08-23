@@ -1,7 +1,7 @@
 'use strict';
 
-const moveFiles = require('..');
 const wraptile = require('wraptile');
+const moveFiles = require('..');
 
 const move = moveFiles('/tmp', '/tmp/root', ['ischanged']);
 const {log} = console;

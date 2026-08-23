@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/cloudcmd/move-files.git"
+    "url": "git+https://github.com/cloudcmd/move-files.git"
   },
   "keywords": [
     "copy",

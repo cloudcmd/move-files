@@ -1,9 +1,11 @@
+*.config.*
+*.log
+*.lock
+
 .*
-test
-yarn-error.log
-example
 
 madrun.js
 
+test
+example
 coverage
-*.config.*
