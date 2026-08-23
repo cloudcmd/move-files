@@ -1,3 +1,21 @@
+2026.08.23, v9.0.0
+
+feature:
+- 124ce77 export: default -> named
+- 5d388d1 migrate to ESM
+- de86ddb @cloudcmd/move-files: try-to-catch v4.1.0
+- 289ed00 @cloudcmd/move-files: try-catch v4.0.9
+- 26cf0af @cloudcmd/move-files: supertape v13.5.1
+- edd3c03 @cloudcmd/move-files: redzip v4.6.1
+- 2b3a6dd @cloudcmd/move-files: redlint v6.9.2
+- b126c02 @cloudcmd/move-files: putout v42.13.0
+- db77174 @cloudcmd/move-files: madrun v13.0.4
+- 4a46850 @cloudcmd/move-files: fullstore v4.0.3
+- 8db6e4e @cloudcmd/move-files: eslint-plugin-putout v31.4.2
+- d81dc61 @cloudcmd/move-files: eslint v10.9.0
+- 34063e1 @cloudcmd/move-files: copymitter v10.3.2
+- f6672cc @cloudcmd/move-files: superc8 v12.7.0
+
 2024.05.06, v8.0.0
 
 feature:
