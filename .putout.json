@@ -1,0 +1,5 @@
+{
+    "rules": {
+        "promises/remove-useless-async": "off"
+    }
+}
