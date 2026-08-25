@@ -65,18 +65,19 @@ test('move-files: emit end', async (t) => {
     const stubs = makeStubs(cp);
     
     const mv = moveFiles('/b', '/a', ['README', 'LICENSE'], stubs);
+    const emit = cp.emit.bind(cp);
     
     await wait(TIME, stub());
     
     await Promise.all([
         once(mv, 'end'),
-        (async () => {
-            cp.emit('progress', 50);
-            cp.emit('file', 'README');
-            cp.emit('progress', 100);
-            cp.emit('file', 'LICENSE');
-            cp.emit('end', {errors: []});
-        })(),
+        emit('progress', 50),
+        emit('file', 'README'),
+        emit('progress', 100),
+        emit('file', 'LICENSE'),
+        emit('end', {
+            errors: [],
+        }),
     ]);
     
     t.pass('should emit end');
@@ -88,14 +89,17 @@ test('move-files: emit end: errors', async (t) => {
     const stubs = makeStubs(cp);
     
     const mv = moveFiles('/b', '/a', ['README', 'LICENSE'], stubs);
+    const emit = cp.emit.bind(cp);
     
     await wait(TIME, stub());
     
     await Promise.all([
         once(mv, 'end'),
-        (async () => {
-            cp.emit('end', {errors: [Error('write failed')]});
-        })(),
+        emit('end', {
+            errors: [
+                Error('write failed'),
+            ],
+        }),
     ]);
     
     t.pass('should emit end when copy errors exist');
@@ -107,14 +111,13 @@ test('move-files: emit progress', async (t) => {
     const stubs = makeStubs(cp);
     
     const mv = moveFiles('/b', '/a', ['README', 'LICENSE'], stubs);
+    const emit = cp.emit.bind(cp);
     
     await wait(TIME, stub());
     
     const [[n]] = await Promise.all([
         once(mv, 'progress'),
-        (async () => {
-            cp.emit('progress', 50);
-        })(),
+        emit('progress', 50),
     ]);
     
     t.equal(n, 50, 'should emit progress');
@@ -135,8 +138,8 @@ test('move-files: progress: TIME_TO_REMOVE: skip', async (t) => {
     mv.on('progress', () => ++progressCount);
     
     cp.emit('progress', 50);
-    cp.emit('progress', 100); // TIME_TO_REMOVE — should be skipped
-    
+    cp.emit('progress', 100);
+    // TIME_TO_REMOVE — should be skipped
     await wait(TIME, stub());
     
     t.equal(progressCount, 1, 'should skip progress at TIME_TO_REMOVE');
@@ -146,6 +149,7 @@ test('move-files: progress: TIME_TO_REMOVE: skip', async (t) => {
 test('move-files: emit file', async (t) => {
     const cp = makeCP();
     const stubs = makeStubs(cp);
+    const emit = cp.emit.bind(cp);
     
     const mv = moveFiles('/b', '/a', ['README'], stubs);
     
@@ -153,9 +157,7 @@ test('move-files: emit file', async (t) => {
     
     const [[src]] = await Promise.all([
         once(mv, 'file'),
-        (async () => {
-            cp.emit('file', 'README');
-        })(),
+        emit('file', 'README'),
     ]);
     
     t.equal(src, 'README', 'should emit file');
@@ -167,14 +169,13 @@ test('move-files: emit directory', async (t) => {
     const stubs = makeStubs(cp);
     
     const mv = moveFiles('/b', '/a', ['mydir'], stubs);
+    const emit = cp.emit.bind(cp);
     
     await wait(TIME, stub());
     
     const [[dir]] = await Promise.all([
         once(mv, 'directory'),
-        (async () => {
-            cp.emit('directory', 'mydir');
-        })(),
+        emit('directory', 'mydir'),
     ]);
     
     t.equal(dir, 'mydir', 'should emit directory');
@@ -185,7 +186,7 @@ test('move-files: emit continue', async (t) => {
     const cp = makeCP();
     const stubs = makeStubs(cp);
     
-    const mv = moveFiles('/b', '/a', ['README'], stubs);
+    moveFiles('/b', '/a', ['README'], stubs);
     
     await wait(TIME, stub());
     
@@ -202,14 +203,13 @@ test('move-files: error: emits error and pauses', async (t) => {
     const stubs = makeStubs(cp);
     
     const mv = moveFiles('/b', '/a', ['README'], stubs);
+    const emit = cp.emit.bind(cp);
     
     await wait(TIME, stub());
     
     const [[err]] = await Promise.all([
         once(mv, 'error'),
-        (async () => {
-            cp.emit('error', Error('copy failed'));
-        })(),
+        emit('error', Error('copy failed')),
     ]);
     
     t.equal(err.message, 'copy failed', 'should emit error');
@@ -238,14 +238,13 @@ test('move-files: abort: via copy abort event', async (t) => {
     const stubs = makeStubs(cp);
     
     const mv = moveFiles('/b', '/a', ['README'], stubs);
+    const emit = cp.emit.bind(cp);
     
     await wait(TIME, stub());
     
     await Promise.all([
         once(mv, 'abort'),
-        (async () => {
-            cp.emit('abort');
-        })(),
+        emit('abort'),
     ]);
     
     t.pass('should emit abort from copy abort event');
@@ -276,12 +275,13 @@ test('move-files: remove: error', async (t) => {
     const mv = moveFiles('/b', '/a', ['README'], stubs);
     
     await wait(TIME, stub());
+    const emit = cp.emit.bind(cp);
     
     const [[err]] = await Promise.all([
         once(mv, 'error'),
-        (async () => {
-            cp.emit('end', {errors: []});
-        })(),
+        emit('end', {
+            errors: [],
+        }),
     ]);
     
     t.equal(err.message, 'remove failed', 'should emit error when remove fails');
