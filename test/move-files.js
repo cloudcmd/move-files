@@ -287,3 +287,46 @@ test('move-files: remove: error', async (t) => {
     t.equal(err.message, 'remove failed', 'should emit error when remove fails');
     t.end();
 });
+
+test('move-files: filee removed before directories', async (t) => {
+    const removed = [];
+    const copied = {files: [], dirs: []};
+
+    const copy = new EventEmitter();
+
+    const copyFiles = () => {
+        process.nextTick(() => {
+            copy.emit('file', '/src/Folder3/file.txt');
+            copy.emit('directory', '/src/Folder3/sub');
+            copy.emit('directory', '/src/Folder3');
+            copy.emit('end', {errors: []});
+        });
+
+        return copy;
+    };
+
+    const remove = async (path) => {
+        removed.push(path);
+    };
+
+    const rename = () => Promise.reject(Error('cross-device'));
+
+    const move = moveFiles('/src/', '/dst/', ['Folder3'], {
+        copyFiles,
+        remove,
+        rename,
+    });
+
+    await new Promise((resolve, reject) => {
+        move.on('end', resolve);
+        move.on('error', reject);
+    });
+
+    t.deepEqual(removed, [
+        '/src/Folder3/file.txt',
+        '/src/Folder3/sub',
+        '/src/Folder3',
+    ]);
+
+    t.end();
+});
