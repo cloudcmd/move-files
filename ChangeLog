@@ -1,3 +1,9 @@
+2026.08.26, v9.0.1
+
+fix:
+- 5ca7eeb remove order (coderaiser/cloudcmd#472)
+- 7c58d5d @cloudcmd/move-files: move files in directories to other partition
+
 2026.08.23, v9.0.0
 
 feature:
