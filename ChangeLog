@@ -1,3 +1,11 @@
+2026.11.15, v9.0.2
+
+fix:
+- b0f7e8c @cloudcmd/move-files: move files in directories to other partition
+
+feature:
+- 061889f @cloudcmd/move-files: @cloudcmd/rename-files v3.0.1
+
 2026.08.26, v9.0.1
 
 fix:
