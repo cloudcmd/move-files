@@ -16,7 +16,7 @@
     "fix:lint": "madrun fix:lint"
   },
   "dependencies": {
-    "@cloudcmd/rename-files": "^2.0.0",
+    "@cloudcmd/rename-files": "^3.0.1",
     "copymitter": "^10.3.2",
     "currify": "^4.0.0",
     "fullstore": "^4.0.3",
